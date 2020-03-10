@@ -824,7 +824,6 @@ const LoginPage = () => {
     e.preventDefault();
     await run(username, password);
     if (isResolved) {
-      setError(null);
       // do something successful
     } else if (isRejected) {
       // do something if unsuccessful
