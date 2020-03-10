@@ -802,6 +802,40 @@ const subscribeToNewsletter = (args, props, controller) => fetch(...)
 </Async>
 ```
 
+#### Form submission without Component Helpers
+
+This uses `deferFn` to trigger an update, based on user interaction, without component helpers.
+
+```jsx
+
+const loginDeferred = ([username, password]) => {
+    // ...other logic
+    return fetch (...)
+}
+
+const LoginPage = () => {
+  // state for username, password
+
+  const {data, error, isResolved, isRejected, run} = useAsync({
+    deferFn: loginDeferred,
+  });
+
+  const handleSubmit = async () => {
+    e.preventDefault();
+    await run(username, password);
+    if (isResolved) {
+      setError(null);
+      // do something successful
+    } else if (isRejected) {
+      // do something if unsuccessful
+    }
+  }
+
+  return ...JSX
+}
+```
+The first argument passed to the `deferFn` is an array, representing the argument list passed to `run`. 
+
 ### Optimistic updates
 
 This uses both `promiseFn` and `deferFn` along with `setData` to implement optimistic updates.
